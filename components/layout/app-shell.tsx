@@ -135,9 +135,9 @@ export function AppShell({
           </div>
         </div>
 
-        {/* 图标子导航（登录后显示） */}
+        {/* 移动端导航（登录后显示，PC 端顶栏已有文字导航，避免重复） */}
         {session && (
-          <div className="border-t border-border/60 bg-surface/60">
+          <div className="border-t border-border/60 bg-surface/60 lg:hidden">
             <nav className="mx-auto flex max-w-[1200px] gap-1 overflow-x-auto px-3 py-2">
               {NAV_ITEMS.map((it) => {
                 const Icon = it.Icon;
