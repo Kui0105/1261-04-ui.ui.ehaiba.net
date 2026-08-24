@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CheckCircle2, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { useToast } from "@/components/ui/toast";
 import { useSession } from "@/lib/session";
@@ -143,61 +143,43 @@ function LoginInner() {
   }
 
   return (
-    <div className="min-h-screen">
-      <header className="sticky top-0 z-40 border-b border-border/70 bg-card/85 backdrop-blur-xl">
+    <div
+      className="relative min-h-screen overflow-hidden"
+      style={{ background: "linear-gradient(150deg,#f7842e 0%,#d2560e 55%,#a8410a 100%)" }}
+    >
+      {/* 全屏背景装饰 */}
+      <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10" />
+      <div className="pointer-events-none absolute top-1/3 -left-24 h-80 w-80 rounded-full bg-white/[0.06]" />
+      <div className="pointer-events-none absolute -bottom-32 right-1/4 h-[26rem] w-[26rem] rounded-full bg-black/10" />
+
+      <header className="relative z-40">
         <div className="container-app flex h-16 items-center justify-between">
-          <Link href="/" className="group flex items-center">
+          <Link href="/" className="group flex items-center rounded-xl bg-white/90 px-3 py-1.5 backdrop-blur">
             <BrandLogo className="transition-transform group-hover:scale-[1.03]" />
           </Link>
           <Link
             href="/"
-            className="rounded-lg px-3 py-1.5 text-[13px] font-semibold text-muted transition-colors hover:bg-black/5 hover:text-foreground"
+            className="rounded-lg px-3 py-1.5 text-[13px] font-semibold text-white/85 transition-colors hover:bg-white/15 hover:text-white"
           >
             返回首页
           </Link>
         </div>
       </header>
 
-      <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-[1200px] items-stretch gap-0 px-5 py-8 lg:grid-cols-2 lg:gap-10">
-        {/* 左侧介绍 */}
-        <aside
-          className="animate-fade-up relative hidden overflow-hidden rounded-3xl p-10 text-white shadow-[var(--shadow-pop)] lg:flex lg:flex-col lg:justify-between"
-          style={{ background: "linear-gradient(150deg,#f7842e 0%,#d2560e 55%,#a8410a 100%)" }}
-        >
-          <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10" />
-          <div className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-white/[0.07]" />
-          <div className="relative">
-            <h2 className="text-3xl font-black leading-snug text-balance">
-              欢迎使用
-              <br />
-              话费代充系统
-            </h2>
-            <p className="mt-4 max-w-[360px] text-[14.5px] leading-relaxed text-white/85">
-              企业批量充值、个人在线直充、代理商分销推广，一个账号全搞定。
-            </p>
-          </div>
-          <div className="relative flex flex-col gap-4">
-            {[
-              ["个人 / 企业 / 代理商 ", "同一账号体系", " 登录"],
-              ["千级号码批量导入，", "订单状态全链路追踪", ""],
-              ["两级分销，", "佣金自动结算、随时提现", ""],
-            ].map((row, i) => (
-              <div key={i} className="flex items-start gap-3 text-[14px] text-white/90">
-                <CheckCircle2 size={20} className="mt-0.5 shrink-0" />
-                <span>
-                  {row[0]}
-                  <b className="font-bold text-white">{row[1]}</b>
-                  {row[2]}
-                </span>
-              </div>
-            ))}
-          </div>
-          <p className="relative text-[12px] text-white/60">© 2026 海拔科技 ehaiba.com</p>
-        </aside>
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] max-w-[1200px] flex-col items-center justify-center gap-8 px-5 py-10">
+        {/* 顶部介绍 */}
+        <div className="animate-fade-up max-w-[560px] text-center text-white">
+          <h2 className="text-3xl font-black leading-snug text-balance sm:text-[34px]">
+            欢迎使用话费代充系统
+          </h2>
+          <p className="mx-auto mt-3 max-w-[440px] text-[14.5px] leading-relaxed text-white/85">
+            企业批量充值、个人在线直充、代理商分销推广，一个账号全搞定。
+          </p>
+        </div>
 
-        {/* 右侧表单 */}
-        <main className="animate-fade-up d2 flex items-center justify-center">
-          <div className="w-full max-w-[420px] rounded-3xl border border-border bg-card p-8 shadow-[var(--shadow-card)]">
+        {/* 表单卡片浮于色块之上 */}
+        <main className="animate-fade-up d2 w-full max-w-[440px]">
+          <div className="w-full rounded-3xl border border-white/20 bg-card/95 p-8 shadow-[var(--shadow-pop)] backdrop-blur-xl">
             <h1 className="text-2xl font-black">登录</h1>
             <p className="mt-1.5 text-[14px] text-muted">请选择登录方式并填写信息。</p>
 
@@ -369,7 +351,7 @@ export function AgreementModal({ open, onClose }: { open: boolean; onClose: () =
           欢迎使用话费代充系统（以下简称"本平台"）。在注册或使用本平台服务前，请您务必仔细阅读并充分理解本协议的全部内容，特别是以加粗形式提示的责任豁免、限制条款等。一旦勾选同意并完成登录/注册，即视为您已阅读、理解并同意接受本协议各项条款的约束。
         </p>
         <p className="mt-2 text-[13px] leading-[1.75] text-muted">
-          您承诺所提供的账号信息真实、准确、完整、合法，并自行妥善保管账号及密码；因账号保管不善导致的损失由您自行承担。本平台按现状提供充值、短信群发等服务，不承诺服务的不间断性与及时性，法律法规另有强制性规定的除外。
+          您承诺所提供的账号信息真实、准确、完整、合法，并自行妥善保管账号及密码；因账号保管不善导致的损失由您自行承担。本平台按现状提供充值、短信群发���服务，不承诺服务的不间断性与及时性，法律法规另有强制性规定的除外。
         </p>
         <h4 className="mb-1.5 mt-4 text-[15px] font-bold">二、隐私政策</h4>
         <p className="text-[13px] leading-[1.75] text-muted">

@@ -174,57 +174,43 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen">
-      <header className="sticky top-0 z-40 border-b border-border/70 bg-card/85 backdrop-blur-xl">
+    <div
+      className="relative min-h-screen overflow-hidden"
+      style={{ background: "linear-gradient(150deg,#f7842e 0%,#d2560e 55%,#a8410a 100%)" }}
+    >
+      {/* 全屏背景装饰 */}
+      <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10" />
+      <div className="pointer-events-none absolute top-1/3 -left-24 h-80 w-80 rounded-full bg-white/[0.06]" />
+      <div className="pointer-events-none absolute -bottom-32 right-1/4 h-[26rem] w-[26rem] rounded-full bg-black/10" />
+
+      <header className="relative z-40">
         <div className="container-app flex h-16 items-center justify-between">
-          <Link href="/" className="group flex items-center">
+          <Link href="/" className="group flex items-center rounded-xl bg-white/90 px-3 py-1.5 backdrop-blur">
             <BrandLogo className="transition-transform group-hover:scale-[1.03]" />
           </Link>
           <Link
             href="/"
-            className="rounded-lg px-3 py-1.5 text-[13px] font-semibold text-muted transition-colors hover:bg-black/5 hover:text-foreground"
+            className="rounded-lg px-3 py-1.5 text-[13px] font-semibold text-white/85 transition-colors hover:bg-white/15 hover:text-white"
           >
             返回首页
           </Link>
         </div>
       </header>
 
-      <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-[1200px] items-stretch gap-0 px-5 py-8 lg:grid-cols-2 lg:gap-10">
-        {/* 左侧介绍 */}
-        <aside
-          className="animate-fade-up relative hidden overflow-hidden rounded-3xl p-10 text-white shadow-[var(--shadow-pop)] lg:flex lg:flex-col lg:justify-between"
-          style={{ background: "linear-gradient(150deg,#f7842e 0%,#d2560e 55%,#a8410a 100%)" }}
-        >
-          <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10" />
-          <div className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-white/[0.07]" />
-          <div className="relative">
-            <h2 className="text-3xl font-black leading-snug text-balance">
-              创建您的
-              <br />
-              话费代充账号
-            </h2>
-            <p className="mt-4 max-w-[360px] text-[14.5px] leading-relaxed text-white/85">
-              选择个人 or 企业身份完成注册，注册成功即可使用全部用户端功能。
-            </p>
-          </div>
-          <div className="relative flex flex-col gap-4">
-            {[
-              "个人用户：无需实名认证，注册即用",
-              "企业用户：填写企业信息，账户唯一",
-              "注册后均可申请成为代理商",
-            ].map((t) => (
-              <div key={t} className="flex items-start gap-3 text-[14px] text-white/90">
-                <Check size={20} className="mt-0.5 shrink-0" />
-                <span>{t}</span>
-              </div>
-            ))}
-          </div>
-          <p className="relative text-[12px] text-white/60">© 2026 海拔科技 ehaiba.com</p>
-        </aside>
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] max-w-[1200px] flex-col items-center justify-center gap-8 px-5 py-10">
+        {/* 顶部介绍 */}
+        <div className="animate-fade-up max-w-[560px] text-center text-white">
+          <h2 className="text-3xl font-black leading-snug text-balance sm:text-[34px]">
+            创建您的话费代充账号
+          </h2>
+          <p className="mx-auto mt-3 max-w-[440px] text-[14.5px] leading-relaxed text-white/85">
+            选择个人 or 企业身份完成注册，注册成功即可使用全部用户端功能。
+          </p>
+        </div>
 
-        {/* 右侧表单 */}
-        <main className="animate-fade-up d2 flex items-center justify-center py-4">
-          <div className="w-full max-w-[460px] rounded-3xl border border-border bg-card p-8 shadow-[var(--shadow-card)]">
+        {/* 表单卡片浮于色块之上 */}
+        <main className="animate-fade-up d2 w-full max-w-[460px]">
+          <div className="w-full rounded-3xl border border-white/20 bg-card/95 p-8 shadow-[var(--shadow-pop)] backdrop-blur-xl">
             <h1 className="text-2xl font-black">注册</h1>
             <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">
               请先选择注册身份（仅影响注册所需资料，登录时不区分身份）。
