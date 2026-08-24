@@ -86,7 +86,7 @@ export function AppShell({
                 <button
                   key={it.key}
                   onClick={() => toast("语音回收功能待开放")}
-                  className="rounded-lg px-3.5 py-2 text-sm font-medium text-muted transition-colors hover:bg-[var(--color-primary-light)] hover:text-primary"
+                  className="rounded-lg px-3.5 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-[var(--color-primary-light)] hover:text-primary"
                 >
                   {it.label}
                 </button>
