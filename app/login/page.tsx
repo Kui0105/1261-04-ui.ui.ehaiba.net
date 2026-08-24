@@ -3,7 +3,8 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Signal, CheckCircle2, ArrowRight } from "lucide-react";
+import { CheckCircle2, ArrowRight } from "lucide-react";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { useToast } from "@/components/ui/toast";
 import { useSession } from "@/lib/session";
 import { Modal } from "@/components/ui/modal";
@@ -145,11 +146,8 @@ function LoginInner() {
     <div className="min-h-screen">
       <header className="sticky top-0 z-40 border-b border-border/70 bg-card/85 backdrop-blur-xl">
         <div className="container-app flex h-16 items-center justify-between">
-          <Link href="/" className="group flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-[linear-gradient(135deg,#f7842e,#e2560c)] text-white shadow-[var(--shadow-primary)] transition-transform group-hover:scale-105">
-              <Signal size={19} />
-            </span>
-            <span className="text-[17px] font-black tracking-tight">话费代充系统</span>
+          <Link href="/" className="group flex items-center">
+            <BrandLogo className="transition-transform group-hover:scale-[1.03]" />
           </Link>
           <Link
             href="/"

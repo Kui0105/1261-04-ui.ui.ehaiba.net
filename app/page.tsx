@@ -296,7 +296,7 @@ export default function HomePage() {
             <Headphones size={16} className="text-primary" />
             专属客服 7×24 小时在线为您服务
           </div>
-          <p className="text-[13px] text-muted-2">话费代充系统 · 仅供前端原型演示</p>
+          <p className="text-[13px] text-muted-2">梵胜通信 Fansheng Communication · 仅供前端原型演示</p>
         </div>
       </footer>
     </AppShell>

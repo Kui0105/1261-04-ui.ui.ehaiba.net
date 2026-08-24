@@ -11,11 +11,11 @@ import {
   ClipboardList,
   Wallet,
   Handshake,
-  Signal,
 } from "lucide-react";
 import { useSession } from "@/lib/session";
 import { useToast } from "@/components/ui/toast";
 import { EditPasswordModal } from "@/components/ui/edit-password-modal";
+import { BrandLogo } from "@/components/ui/brand-logo";
 
 type NavKey = "home" | "recharge" | "sms" | "voiceback" | "orders" | "account" | "agent" | "";
 
@@ -75,11 +75,8 @@ export function AppShell({
       {/* 顶栏 */}
       <header className="sticky top-0 z-50 border-b border-border/70 bg-card/85 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-4 px-5">
-          <Link href="/" className="group flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-[linear-gradient(135deg,#f7842e,#e2560c)] text-white shadow-[var(--shadow-primary)] transition-transform duration-300 group-hover:scale-105">
-              <Signal size={19} />
-            </span>
-            <span className="text-[17px] font-black tracking-tight">话费代充系统</span>
+          <Link href="/" className="group flex items-center">
+            <BrandLogo className="transition-transform duration-300 group-hover:scale-[1.03]" />
           </Link>
 
           {/* PC 导航 */}
