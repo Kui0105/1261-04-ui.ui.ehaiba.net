@@ -22,7 +22,7 @@ const FEATURES = [
   {
     Icon: Layers,
     title: "批量话费充值",
-    desc: "支持三网号码批量导入，一键发起大批量充值，实时回执到账状态。",
+    desc: "支持四网号码批量导入，一键发起大批量充值，实时回执到账状态。",
   },
   {
     Icon: MessageSquare,
@@ -83,7 +83,7 @@ export default function HomePage() {
               极速、稳定、可对账
             </h1>
             <p className="mt-5 max-w-[520px] text-[15px] leading-relaxed text-muted">
-              三网话费批量充值、短信群发触达、订单全流程管理与代理商分佣，一站式满足个人与企业的营销与充值需求。
+              四网话费批量充值、短信群发触达、订单全流程管理与代理商分佣，一站式满足个人与企业的营销与充值需求。
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href={session ? "/recharge" : "/login"}>
@@ -126,7 +126,7 @@ export default function HomePage() {
                     </span>
                     <div>
                       <p className="text-[15px] font-extrabold">话费充值</p>
-                      <p className="text-[12px] text-muted">三网直连 · 秒级到账</p>
+                      <p className="text-[12px] text-muted">四网直连 · 秒级到账</p>
                     </div>
                   </div>
                   <span className="rounded-full bg-[var(--color-success-soft)] px-3 py-1 text-[12px] font-bold text-[var(--color-success)]">
