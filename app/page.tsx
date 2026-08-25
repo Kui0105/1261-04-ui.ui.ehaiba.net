@@ -168,28 +168,6 @@ export default function HomePage() {
                   ))}
                 </div>
               </div>
-
-              {/* 悬浮到账提示 */}
-              <div className="absolute -left-5 bottom-6 flex items-center gap-3 rounded-2xl border border-border bg-card/95 px-4 py-3 shadow-[var(--shadow-pop)] backdrop-blur">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--color-success-soft)] text-[var(--color-success)]">
-                  <CheckCircle2 size={20} />
-                </span>
-                <div>
-                  <p className="text-[13px] font-bold">充值成功</p>
-                  <p className="text-[12px] text-muted">50 个号码 · 已到账</p>
-                </div>
-              </div>
-
-              {/* 悬浮短信提示 */}
-              <div className="absolute -right-4 top-8 flex items-center gap-2.5 rounded-2xl border border-border bg-card/95 px-4 py-3 shadow-[var(--shadow-pop)] backdrop-blur">
-                <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--color-primary-light)] text-primary">
-                  <MessageSquare size={18} />
-                </span>
-                <div>
-                  <p className="text-[12.5px] font-bold">短信群发</p>
-                  <p className="text-[11.5px] text-muted">签名已报备</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>

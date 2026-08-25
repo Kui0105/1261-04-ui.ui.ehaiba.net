@@ -224,9 +224,9 @@ function DetailInner() {
         {/* 明细工具栏 + 表格 */}
         <div className="animate-fade-up d3 overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)]">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
-            <div className="flex flex-wrap gap-2.5">
+            <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2.5">
               <input
-                className="field-input w-[220px]"
+                className="field-input w-full min-w-[180px] max-w-[240px] flex-1 sm:w-auto"
                 placeholder="根据手机号筛选…"
                 value={phoneKw}
                 onChange={(e) => {
@@ -235,7 +235,7 @@ function DetailInner() {
                 }}
               />
               <select
-                className="field-input w-[140px]"
+                className="field-input w-[150px] shrink-0"
                 value={statusF}
                 onChange={(e) => {
                   setStatusF(e.target.value);

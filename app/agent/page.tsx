@@ -296,7 +296,7 @@ function ApplyForm(props: {
 }) {
   const p = props
   return (
-    <div className="panel">
+    <div className="panel apply-panel">
       <h3 style={{ marginBottom: 18 }}>申请表单</h3>
       <div className="apply-form">
         <div className="field">

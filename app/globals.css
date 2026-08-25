@@ -405,6 +405,17 @@ textarea.field-input {
 .seg label:hover { border-color: var(--color-primary); }
 
 .apply-form { max-width: 560px; }
+.apply-panel {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 32px 40px;
+}
+.apply-panel .apply-form {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /* 协议勾选 */
 .agree-row {
