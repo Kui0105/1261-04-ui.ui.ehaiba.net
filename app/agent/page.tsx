@@ -635,7 +635,7 @@ function AgentCenter({
               直推佣金 <b>{fmtMoney(st.directComm)}</b>（企业直推 <span>{st.directEnt}</span> 人）
             </span>
             <span className="comm-pill indirect">
-              间推���金 <b>{fmtMoney(st.indirectComm)}</b>（企业���推 <span>{st.indirectEnt}</span> 人）
+              间推佣金 <b>{fmtMoney(st.indirectComm)}</b>（企业间推 <span>{st.indirectEnt}</span> 人）
             </span>
             <span className="comm-pill none">个人推广 0 佣金</span>
           </div>
