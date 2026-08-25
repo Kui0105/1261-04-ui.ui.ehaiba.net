@@ -3,7 +3,7 @@
 import { Suspense, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ArrowLeft, AlertTriangle, Download } from "lucide-react";
+import { ArrowLeft, AlertTriangle, Download, Search } from "lucide-react";
 import { AppShell } from "@/components/layout/app-shell";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
@@ -42,6 +42,8 @@ function DetailInner() {
 
   const [phoneKw, setPhoneKw] = useState("");
   const [statusF, setStatusF] = useState("");
+  const [appliedPhone, setAppliedPhone] = useState("");
+  const [appliedStatus, setAppliedStatus] = useState("");
   const [page, setPage] = useState(1);
 
   const norm = useMemo(() => (order ? normDetails(order) : []), [order]);
@@ -49,12 +51,26 @@ function DetailInner() {
   const filtered = useMemo(
     () =>
       norm.filter((d) => {
-        if (phoneKw && d.phone.indexOf(phoneKw) === -1) return false;
-        if (statusF && d.status !== statusF) return false;
+        if (appliedPhone && d.phone.indexOf(appliedPhone) === -1) return false;
+        if (appliedStatus && d.status !== appliedStatus) return false;
         return true;
       }),
-    [norm, phoneKw, statusF],
+    [norm, appliedPhone, appliedStatus],
   );
+
+  function runQuery() {
+    setAppliedPhone(phoneKw.trim());
+    setAppliedStatus(statusF);
+    setPage(1);
+  }
+
+  function resetQuery() {
+    setPhoneKw("");
+    setStatusF("");
+    setAppliedPhone("");
+    setAppliedStatus("");
+    setPage(1);
+  }
 
   if (!order) {
     return (
@@ -226,27 +242,30 @@ function DetailInner() {
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
             <div className="flex min-w-0 flex-1 items-center gap-2.5">
               <input
-                className="field-input min-w-0 max-w-[260px] flex-1 basis-0"
+                className="field-input min-w-0 max-w-[240px] flex-1 basis-0"
                 placeholder="根据手机号筛选…"
                 value={phoneKw}
-                onChange={(e) => {
-                  setPhoneKw(e.target.value);
-                  setPage(1);
+                onChange={(e) => setPhoneKw(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.nativeEvent.isComposing && e.keyCode !== 229) runQuery();
                 }}
               />
               <select
-                className="field-input w-[160px]! shrink-0 grow-0 basis-[160px]!"
+                className="field-input w-[150px]! shrink-0 grow-0 basis-[150px]!"
                 value={statusF}
-                onChange={(e) => {
-                  setStatusF(e.target.value);
-                  setPage(1);
-                }}
+                onChange={(e) => setStatusF(e.target.value)}
               >
                 <option value="">全部状态</option>
                 <option value="success">{isSms ? "发送成功" : "充值成功"}</option>
                 <option value="fail">{isSms ? "发送失败" : "充值失败"}</option>
                 <option value="process">{isSms ? "发送中" : "充值中"}</option>
               </select>
+              <Button size="sm" onClick={runQuery} className="shrink-0">
+                <Search size={15} /> 查询
+              </Button>
+              <Button variant="outline" size="sm" onClick={resetQuery} className="shrink-0">
+                重置
+              </Button>
             </div>
             <Button variant="outline" size="sm" onClick={exportCsv}>
               <Download size={15} /> 导出数据
