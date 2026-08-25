@@ -171,6 +171,7 @@ export default function AgentPage() {
   return (
     <AppShell active="agent">
       {view === "apply" && (
+        <div className="apply-center">
         <ApplyForm
           applyUserType={applyUserType}
           setApplyUserType={setApplyUserType}
@@ -196,6 +197,7 @@ export default function AgentPage() {
           onOpenAgreement={() => setAgreementOpen(true)}
           onSubmit={submitApplication}
         />
+        </div>
       )}
 
       {view === "pending" && (
@@ -622,7 +624,7 @@ function AgentCenter({
               直推佣金 <b>{fmtMoney(st.directComm)}</b>（企业直推 <span>{st.directEnt}</span> 人）
             </span>
             <span className="comm-pill indirect">
-              间推佣金 <b>{fmtMoney(st.indirectComm)}</b>（企业间推 <span>{st.indirectEnt}</span> 人）
+              间推佣金 <b>{fmtMoney(st.indirectComm)}</b>（企业���推 <span>{st.indirectEnt}</span> 人）
             </span>
             <span className="comm-pill none">个人推广 0 佣金</span>
           </div>
@@ -1094,7 +1096,7 @@ function WithdrawModal({
   )
 }
 
-/* ============ 提现记录弹窗 ============ */
+/* ============ 提现记���弹窗 ============ */
 function WdRecordModal({
   open,
   onClose,

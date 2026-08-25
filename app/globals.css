@@ -405,6 +405,16 @@ textarea.field-input {
 .seg label:hover { border-color: var(--color-primary); }
 
 .apply-form { max-width: 560px; }
+.apply-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 210px);
+  padding: 24px 0;
+}
+.apply-center .apply-panel {
+  width: 100%;
+}
 .apply-panel {
   max-width: 640px;
   margin-left: auto;
