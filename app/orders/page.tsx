@@ -95,7 +95,7 @@ export default function OrdersPage() {
 
         {/* 筛选栏 */}
         <div className="animate-fade-up d2 mb-5 rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             <FField label="订单编号">
               <input
                 className="field-input"
@@ -133,18 +133,18 @@ export default function OrdersPage() {
                 <option value="success">已完成</option>
               </select>
             </FField>
-            <FField label="提交时间">
+            <FField label="提交时间" className="sm:col-span-2">
               <div className="flex items-center gap-2">
                 <input
                   type="date"
-                  className="field-input"
+                  className="field-input min-w-0 flex-1"
                   value={form.timeStart}
                   onChange={(e) => setForm({ ...form, timeStart: e.target.value })}
                 />
-                <span className="text-[13px] text-muted">至</span>
+                <span className="shrink-0 text-[13px] text-muted">至</span>
                 <input
                   type="date"
-                  className="field-input"
+                  className="field-input min-w-0 flex-1"
                   value={form.timeEnd}
                   onChange={(e) => setForm({ ...form, timeEnd: e.target.value })}
                 />
@@ -253,9 +253,9 @@ function OrderRow({ o, onDetail }: { o: Order; onDetail: () => void }) {
   );
 }
 
-function FField({ label, children }: { label: string; children: React.ReactNode }) {
+function FField({ label, children, className }: { label: string; children: React.ReactNode; className?: string }) {
   return (
-    <div>
+    <div className={className}>
       <label className="mb-1.5 block text-[13px] font-semibold">{label}</label>
       {children}
     </div>
