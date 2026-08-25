@@ -170,7 +170,7 @@ function LoginInner() {
         {/* 顶部介绍 */}
         <div className="animate-fade-up max-w-[560px] text-center text-white">
           <h2 className="text-3xl font-black leading-snug text-balance sm:text-[34px]">
-            欢迎使用话费代充系统
+            欢迎使用梵胜通信话费收单系统
           </h2>
           <p className="mx-auto mt-3 max-w-[440px] text-[14.5px] leading-relaxed text-white/85">
             企业批量充值、个人在线直充、代理商分销推广，一个账号全搞定。
