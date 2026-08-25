@@ -404,6 +404,19 @@ textarea.field-input {
 .seg label.checked .tick { opacity: 1; transform: scale(1); }
 .seg label:hover { border-color: var(--color-primary); }
 
+.agent-page {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 24px 20px 40px;
+}
+.review-panel {
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .apply-form { max-width: 560px; }
 .apply-center {
   display: flex;
@@ -596,7 +609,7 @@ textarea.field-input {
 .voucher-status { text-align: center; color: #07c160; font-weight: 700; font-size: 13px; padding: 12px 0 4px; border-top: 1px solid #e5e9f0; }
 .voucher-foot { text-align: center; color: #bbb; font-size: 11px; padding-bottom: 16px; }
 
-/* ===== 账户中心 ===== */
+/* ===== 账��中心 ===== */
 .rech-entry {
   display: flex;
   align-items: center;

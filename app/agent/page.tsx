@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { AppShell } from "@/components/layout/app-shell"
 import { Button } from "@/components/ui/button"
 import { Modal } from "@/components/ui/modal"
@@ -89,6 +89,15 @@ export default function AgentPage() {
   })()
 
   const [view, setView] = useState<ViewState>(initialView)
+
+  // session 从 localStorage 异步加载后，同步 view 状态（修复刷新退回申请表单的问题）
+  useEffect(() => {
+    const st = session?.agentStatus
+    if (st === "approved") setView("approved")
+    else if (st === "pending") setView("pending")
+    else if (st === "rejected") setView("rejected")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.agentStatus])
   const [rejectReason, setRejectReason] = useState(
     session?.agentRejectReason || "您的资质不符合代理商入驻要求，请完善资料后重新申请。",
   )
@@ -170,6 +179,7 @@ export default function AgentPage() {
 
   return (
     <AppShell active="agent">
+      <div className="agent-page">
       {view === "apply" && (
         <div className="apply-center">
         <ApplyForm
@@ -201,7 +211,7 @@ export default function AgentPage() {
       )}
 
       {view === "pending" && (
-        <div className="panel">
+        <div className="panel review-panel">
           <div className="review-status">
             <div className="review-status-icon review-spinning" aria-hidden="true">
               <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -219,7 +229,7 @@ export default function AgentPage() {
       )}
 
       {view === "rejected" && (
-        <div className="panel">
+        <div className="panel review-panel">
           <div className="review-status">
             <div className="review-status-icon" style={{ color: "var(--danger)" }} aria-hidden="true">
               <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -243,6 +253,7 @@ export default function AgentPage() {
       )}
 
       {view === "approved" && <AgentCenter session={session} toast={toast} />}
+      </div>
 
       <Modal open={agreementOpen} onClose={() => setAgreementOpen(false)} title="代理商合作协议" maxWidth={580}>
         <div className="agreement-body">
@@ -624,7 +635,7 @@ function AgentCenter({
               直推佣金 <b>{fmtMoney(st.directComm)}</b>（企业直推 <span>{st.directEnt}</span> 人）
             </span>
             <span className="comm-pill indirect">
-              间推佣金 <b>{fmtMoney(st.indirectComm)}</b>（企业���推 <span>{st.indirectEnt}</span> 人）
+              间推���金 <b>{fmtMoney(st.indirectComm)}</b>（企业���推 <span>{st.indirectEnt}</span> 人）
             </span>
             <span className="comm-pill none">个人推广 0 佣金</span>
           </div>
