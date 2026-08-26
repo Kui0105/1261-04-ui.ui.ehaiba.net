@@ -5,6 +5,16 @@
 
 ---
 
+## 2026-08-26（v1.1.6 / 迭代 83）代理商中心佣金明细筛选增加查询与重置按钮
+
+- **交互模型对齐账户中心与订单中心（app/agent/page.tsx）**：佣金明细原先输入即实时过滤，改为「暂存 + 提交」两段式——新增 `CommFilters` 类型与 `EMPTY_COMM_FILTERS` 常量，`commForm` 保存正在编辑的条件、`commApplied` 保存已生效的条件；移除 `consId` / `consMember` / `consFrom` / `consTo` 四个独立 state，`filteredComm` 的 `useMemo` 依赖收敛为仅 `commApplied`。
+- **查询 / 重置按钮**：筛选栏末尾新增 `.filter-actions`，放入 `查询`（primary + `Search` 图标）与 `重置`（`variant="outline"` + `RotateCcw` 图标），复用账户中心 v1.1.5 已建立的样式，本次无需新增 CSS。
+- **`applyCommFilter` / `resetCommFilter`**：点「查询」提交 `commForm` 到 `commApplied` 并回到第 1 页；点「重置」同时清空两者并回到第 1 页。原先散落在各输入框 `onChange` 里的 `setCommPage(1)` 副作用一并移除。
+- **单号 / 来源用户框支持回车查询**：`onKeyDown` 监听 Enter 触发 `applyCommFilter`，并加入中日韩输入法保护（`isComposing` 与 Safari `keyCode === 229`），避免拼音选字时误提交。
+- 版本号 `package.json` 由 `1.1.5` 升至 `1.1.6`。
+
+---
+
 ## 2026-08-26（v1.1.5 / 迭代 82）账户中心筛选参考订单中心，增加查询与重置按钮
 
 - **交互模型对齐订单中心（app/account/page.tsx）**：原先输入即实时过滤，改为「暂存 + 提交」两段式——新增 `FlowFilters` 类型与 `EMPTY_FILTERS` 常量，`form` 保存正在编辑的条件、`applied` 保存已生效的条件，`useMemo` 过滤依赖由 5 个独立 state 改为仅依赖 `applied`。
@@ -147,7 +157,7 @@
 
 - **1. 我的团队弹窗：数据直接显示在 TAB 内（去掉独立统计条）**：
   - 删除独立的「数据统计条」`.team-stats`（HTML `<div id="teamStats">` + `renderTeamStats()` 函数 + 调用），相关数据改为直接写进 TAB 标签文案：`直推（7）` `间推（8）`（`DB.AGENT_DIRECT.length` / `DB.AGENT_INDIRECT.length`）。
-  - TAB 标签内新增 `<span id="directCount">` / `<span id="indirectCount">`，在 `switchTeamTab()` 中实时赋值。
+  - TAB 标签内新增 `<span id="directCount">` / `<span id="indirectCount">`，在 `switchTeamTab()` 中实���赋值。
   - 保留原有的**每页 10 条分页**机制（`teamPager` / `renderTeamPager()` / `gotoTeamPage()` / `TEAM_PAGE_SIZE = 10`）不变。
   - 原 `teamSub` 描述文案精简为「由您直接推广注册的下级客户」/「由您的直推客户再次推广注册的下级客户」（去掉重复的「共 N 人」）。
   - 同步删除 `agent.css` 中已无用的 `.team-stats / .ts-item` 样式。
@@ -466,7 +476,7 @@
 - **新增充值面额说明弹窗**：展示每种面额的含税/未税单价对照表
 - **重构号码导入**：新增导入弹窗（拖拽上传区 + 文件选择器），支持 .xlsx/.xls 格式提示；模板下载功能（导出 CSV 模板）；导入结果预览 + 异常号码标红
 - **增强底部统计栏**：合计面额、税费面额、税费类型、单价、税额数量五项统计 + 提交单据按钮
-- **增强订单确认弹窗**：展示运营商/税费类型/面值/单价金额/税额数量/支付方式/手机号码列表；企业用户显示当前余额/本次消费/消费后余额三卡片；个人用户提示微信扫码支付
+- **增强订单确认弹窗**：展示运营商/税费类型/面值/单价金额/税额数量/支付方式/手机号码列表；企业用户显示当前余额/本次消费/消费后余额三卡片；个人用户提示微信��码支付
 - **新增企业验证码验证流程**：企业用户提交订单需先输入绑定手机号验证码（演示码 111111），60s 倒计时重发
 - **新增支付状态窗口**：支付成功后展示订单号 + 前往订单管理入口
 - **提交按钮置灰规则**：运营商/面额/税费三项任一未选时提交按钮置灰不可点击
@@ -721,7 +731,7 @@
 
 ## 2026-07-28（迭代 9）
 
-- **移动端子导航加文字标签**：纯 emoji 图标用户看不懂，改为「图标 + 文字」纵向排列（icon 21px / label 11px），5 个入口均等分布（`justify-content:space-around`），active 高亮背景+文字色。
+- **移动端子导航加文字标签**：纯 emoji 图标用户看不懂，改为「图标 + 文字」纵向排列（icon 21px / label 11px），5 个入口均等分布（`justify-content:space-around`），active 高亮背景+文字���。
   - `app.js` `renderTopbar()`：`.icon-nav-item` 内部拆为 `.icon-nav-icon` + `.icon-nav-label` 两层。
   - `style.css`：`.icon-nav-item` 改 `flex-direction:column;gap:3px`，新增 `.icon-nav-icon`/`.icon-nav-label` 样式。
   - `index.html` 静态子导航同步更新。

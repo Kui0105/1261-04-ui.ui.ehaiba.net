@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
+import { Search, RotateCcw } from "lucide-react"
 import { AppShell } from "@/components/layout/app-shell"
 import { Button } from "@/components/ui/button"
 import { Modal } from "@/components/ui/modal"
@@ -16,6 +17,10 @@ type ViewState = "apply" | "pending" | "rejected" | "approved"
 const TEAM_PAGE_SIZE = 10
 const WD_PAGE_SIZE = 10
 const COMM_PAGE_SIZE = 20
+
+type CommFilters = { id: string; member: string; from: string; to: string }
+
+const EMPTY_COMM_FILTERS: CommFilters = { id: "", member: "", from: "", to: "" }
 
 const AGREEMENT_SECTIONS: { h: string; body: React.ReactNode }[] = [
   {
@@ -541,23 +546,32 @@ function AgentCenter({
   const [voucherId, setVoucherId] = useState<string | null>(null)
 
   // Commission filters
-  const [consId, setConsId] = useState("")
-  const [consMember, setConsMember] = useState("")
-  const [consFrom, setConsFrom] = useState("")
-  const [consTo, setConsTo] = useState("")
+  const [commForm, setCommForm] = useState<CommFilters>(EMPTY_COMM_FILTERS)
+  const [commApplied, setCommApplied] = useState<CommFilters>(EMPTY_COMM_FILTERS)
   const [commPage, setCommPage] = useState(1)
 
+  function applyCommFilter() {
+    setCommApplied(commForm)
+    setCommPage(1)
+  }
+
+  function resetCommFilter() {
+    setCommForm(EMPTY_COMM_FILTERS)
+    setCommApplied(EMPTY_COMM_FILTERS)
+    setCommPage(1)
+  }
+
   const filteredComm = useMemo(() => {
-    const kwId = consId.trim().toLowerCase()
-    const kwM = consMember.trim().toLowerCase()
+    const kwId = commApplied.id.trim().toLowerCase()
+    const kwM = commApplied.member.trim().toLowerCase()
     return (DB.COMMISSIONS || []).filter((c) => {
       if (kwId && (c.id || "").toLowerCase().indexOf(kwId) === -1) return false
       if (kwM && (c.member || "").toLowerCase().indexOf(kwM) === -1) return false
-      if (consFrom && c.time < consFrom) return false
-      if (consTo && c.time > consTo) return false
+      if (commApplied.from && c.time < commApplied.from) return false
+      if (commApplied.to && c.time > commApplied.to) return false
       return true
     })
-  }, [consId, consMember, consFrom, consTo])
+  }, [commApplied])
 
   const commPages = Math.max(1, Math.ceil(filteredComm.length / COMM_PAGE_SIZE))
   const commCur = Math.min(commPage, commPages)
@@ -647,10 +661,10 @@ function AgentCenter({
               type="text"
               className="field-input"
               placeholder="输入单号搜索…"
-              value={consId}
-              onChange={(e) => {
-                setConsId(e.target.value)
-                setCommPage(1)
+              value={commForm.id}
+              onChange={(e) => setCommForm({ ...commForm, id: e.target.value })}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.nativeEvent.isComposing && e.keyCode !== 229) applyCommFilter()
               }}
             />
           </div>
@@ -660,10 +674,10 @@ function AgentCenter({
               type="text"
               className="field-input"
               placeholder="输入来源用户搜索…"
-              value={consMember}
-              onChange={(e) => {
-                setConsMember(e.target.value)
-                setCommPage(1)
+              value={commForm.member}
+              onChange={(e) => setCommForm({ ...commForm, member: e.target.value })}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.nativeEvent.isComposing && e.keyCode !== 229) applyCommFilter()
               }}
             />
           </div>
@@ -673,23 +687,25 @@ function AgentCenter({
               <input
                 type="date"
                 className="field-input"
-                value={consFrom}
-                onChange={(e) => {
-                  setConsFrom(e.target.value)
-                  setCommPage(1)
-                }}
+                value={commForm.from}
+                onChange={(e) => setCommForm({ ...commForm, from: e.target.value })}
               />
               <span className="date-sep">~</span>
               <input
                 type="date"
                 className="field-input"
-                value={consTo}
-                onChange={(e) => {
-                  setConsTo(e.target.value)
-                  setCommPage(1)
-                }}
+                value={commForm.to}
+                onChange={(e) => setCommForm({ ...commForm, to: e.target.value })}
               />
             </div>
+          </div>
+          <div className="filter-actions">
+            <Button onClick={applyCommFilter}>
+              <Search size={16} /> 查询
+            </Button>
+            <Button variant="outline" onClick={resetCommFilter}>
+              <RotateCcw size={15} /> 重置
+            </Button>
           </div>
         </div>
         <div style={{ overflowX: "auto" }}>
