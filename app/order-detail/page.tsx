@@ -269,7 +269,12 @@ function DetailInner() {
                 </Button>
               </div>
             </div>
-            <Button variant="outline" size="sm" onClick={exportCsv} className="w-full lg:w-auto">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={exportCsv}
+              className="w-[calc(50%-5px)] sm:w-auto sm:self-start lg:self-auto"
+            >
               <Download size={15} /> 导出数据
             </Button>
           </div>

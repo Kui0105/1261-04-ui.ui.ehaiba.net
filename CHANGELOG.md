@@ -5,6 +5,16 @@
 
 ---
 
+## 2026-08-26（v1.1.7 / 迭代 84）订单管理 H5 导出与重置按钮宽度对齐账户中心
+
+- **订单列表查询 / 重置等宽（app/orders/page.tsx）**：两个按钮原为内容宽度（H5 下 92px / 93px，右侧留大片空白），加上 `max-[460px]:flex-1` 后在窄屏平分整行（390px 下 144px / 146px），与账户中心 `.filter-actions button { flex: 1 }` 的 460px 断点保持一致；460px 以上仍是自动宽度左对齐，桌面端不变。
+- **订单详情导出按钮宽度（app/order-detail/page.tsx）**：`导出数据` 原为 `w-full`，H5 下独占整行 316px，与同组 152px 的查询 / 重置明显不齐。改为 `w-[calc(50%-5px)]`（即 `(100% - gap 10px) / 2`，与 `flex-1` 按钮算出的宽度完全相同），390px 下三个按钮实测 152 / 154 / 153，导出按钮整齐落在查询下方。
+- **平板区间收敛**：新增 `sm:w-auto sm:self-start lg:self-auto`，使 640–1023px 区间的导出按钮由原先被拉伸的 726px 改为内容宽度 105px 左对齐；`lg` 及以上恢复 `self-auto`，保持原先「筛选项在左、导出数据靠右」的桌面布局与垂直居中不变。
+- 已验证 360 / 390 / 800 / 1153px 四个断点均无溢出，导出 CSV 功能正常（toast 正常弹出）。
+- 版本号 `package.json` 由 `1.1.6` 升至 `1.1.7`。
+
+---
+
 ## 2026-08-26（v1.1.6 / 迭代 83）代理商中心佣金明细筛选增加查询与重置按钮
 
 - **交互模型对齐账户中心与订单中心（app/agent/page.tsx）**：佣金明细原先输入即实时过滤，改为「暂存 + 提交」两段式——新增 `CommFilters` 类型与 `EMPTY_COMM_FILTERS` 常量，`commForm` 保存正在编辑的条件、`commApplied` 保存已生效的条件；移除 `consId` / `consMember` / `consFrom` / `consTo` 四个独立 state，`filteredComm` 的 `useMemo` 依赖收敛为仅 `commApplied`。
@@ -79,12 +89,12 @@
 ## 2026-08-13（迭代 76）编辑弹窗验证码输入框与按钮同行
 
 - **需求**：修改密码弹窗内「短信验证码」输入框需与「获取验证码」按钮处于**同一行**。
-- **根因**：`.code-row` 的 flex 横向布局规则原本只写在 `agent.css`（仅 `agent.html` 加载）。迭代 75 将编辑弹窗改为 `app.js` 全局注入后，在 话费充值 / 短信群发 / 订单管理 / 账户中心 四页（不加载 `agent.css`）中 `.code-row` 无样式，输入框与按钮退化为竖向堆叠。
+- **根因**：`.code-row` 的 flex 横向布局规则原本只写在 `agent.css`（仅 `agent.html` 加载）。迭代 75 将编辑弹窗���为 `app.js` 全局注入后，在 话费充值 / 短信群发 / 订单管理 / 账户中心 四页（不加载 `agent.css`）中 `.code-row` 无样式，输入框与按钮退化为竖向堆叠。
 - **修复**：在全局 `style.css`（所有页面均加载）新增作用域限定的规则，仅对「修改密码弹窗」这类 `.apply-form` 内的 `.code-row` 生效，避免误伤 `register.html` / `login.html` 顶层的 `.code-row`（其结构为嵌套 `.field`）：
   - `.apply-form .code-row { display: flex; gap: 8px; align-items: stretch; }`
   - `.apply-form .code-row input { flex: 1; min-width: 0; width: auto; }`
   - `.apply-form .code-row .btn { flex-shrink: 0; white-space: nowrap; }`
-  - 编辑弹窗 HTML 本就以 `.apply-form` 包裹，故以上规则在 5 个受保护页面通用；与 `agent.css` 既有 `.code-row` 规则不冲突（agent 页同时命中，效果一致）。
+  - 编辑弹窗 HTML 本就以 `.apply-form` ��裹，故以上规则在 5 个受保护页面通用；与 `agent.css` 既有 `.code-row` 规则不冲突（agent 页同时命中，效果一致）。
 - 校验：app.js 未改动；确认 `style.css` 已新增 `.apply-form .code-row` 三段规则。
 
 ---
@@ -146,8 +156,8 @@
   - 作废原先基于 `#commBody` 行 `data-*` 属性的 DOM 显隐筛选（`applyConsFilter` 改为数据驱动），新增 `getFilteredCommissions()`（按 单号/来源用户关键词 + 金额 + 时间范围 过滤）与 `renderCommList()`。
   - 新增分页状态 `commPageIndex` / `COMM_PAGE_SIZE = 20`，列表下方新增分页容器 `<div class="pagination" id="commPager">`；`renderCommPager()` / `gotoCommPage()` 复用既有 `.pagination` 样式；筛选时自动回到第 1 页（25 条 → 2 页：20 + 5）。
 - **2. 提现记录弹窗新增「打款凭证」列**：
-  - `wd-table` 表头在原 5 列基础上新增 **打款凭证** 列（位于「提现状态」之后、「提现时间」之前）。
-  - 渲染逻辑（`renderWdRecords`）：仅 `已到账（打款成功）且含 voucher` 的行显示「查看凭证」按钮（点击 `openVoucher` 弹 SVG 凭证）；其余状态（待审核/待打款/审核驳回）以灰色「—」占位。
+  - `wd-table` 表头在原 5 列基础��新增 **打款凭证** 列（位于「提现状态」之后、「提现时间」之前）。
+  - 渲染逻辑（`renderWdRecords`）：仅 `已到账（打款成功）且含 voucher` 的行显示「查看凭证」按钮（点击 `openVoucher` 弹 SVG 凭证）；其余状态（待审核/待打款/审核驳回）以灰���「—」占位。
   - 同步将原本嵌在「提现状态」单元格内的凭证按钮**移出**，避免与状态/驳回原因混排；新增 `.wd-dash` 灰色占位样式。
 - 校验：`agent.html` 内联脚本（2 段）经 `new Function` 解析通过；`data.js` 经 `node --check` 与整文件加载验证，`COMMISSIONS.length = 25`（直推 13 / 间推 12，ID 全唯一）；确认无 `data-amt/data-member/data-id` 残留引用。
 
@@ -278,7 +288,7 @@
   - `doSubmitOrder()`：路由判断由 `state.tax === "taxed"` 改为 `s.type === "enterprise"`。
   - `executePayment()`：余额扣减条件由 `state.tax === "taxed"` 改为 `s.type === "enterprise"`。
   - 修正确认弹窗「消费后余额」卡片：原误展示 `-total`，现改为展示真实剩余余额 `afterBalance = s.balance - total`。
-- **账户中心个人用户不再显示「累计充值金额」**：`#flowSummary` 个人用户汇总条仅保留「累计消费金额」一项（移除「累计充值金额」卡片）。企业用户四卡片不受影响。
+- **账户中心个人用户不再显示「累计充值金额」**：`#flowSummary` 个���用户汇总条仅保留「累计消费金额」一项（移除「累计充值金额」卡片）。企业用户四卡片不受影响。
 
 ---
 
@@ -368,7 +378,7 @@
 2. 列表类型改为「话费充值 / 短信群发」。
 3. 订单状态仅保留「进行中 / 已完成」两种；部分失败归入已完成。
 4. 筛选状态仅「进行中 / 已完成」；提交时间改为时间段（起~止日期）选择，替代近7天等选项；筛选缓存同步改为起止日期。
-5. 卡片数据去掉「部分失败」统计，保留订单数量/进行中/已完成。
+5. 卡片数据去掉「部分失败」统计，保留���单数量/进行中/已完成。
 6. 列表「成功/失败数」改为「成功/失败/总数」三字段。
 7. 列表退款金额/支付总额不再显示负数，直接展示正数金额（如 ¥500.00 / ¥1000.00）。
 8. 操作列按钮改为可见的「查看详情」按钮（原 a 标签文字不显示问题修复）。
@@ -458,7 +468,7 @@
 - 订单确认弹窗增强：支付方式、手机号 chip 列表、企业三卡片余额（当前/本次消费/消费后）
 - 企业验证码流程：60s 倒计时重发、演示码 111111
 - 支付状态窗口：成功展示任务号 → 前往订单管理
-- 个人用户=微信扫码支付；企业用户=余额支付+验证码
+- 个人用户=微信扫码支付；企业���户=余额支付+验证码
 - 含税金额计算：单价×(1+6%)，切换税费实时更新金额
 - 新增 assets/css/sms.css 短信页专用样式
 
@@ -538,7 +548,7 @@
 
 ---
 
-## 2026-08-06（迭代 32）移除短信群发页面功能说明 banner
+## 2026-08-06（迭�� 32）移除短信群发页面功能说明 banner
 
 - sms.html：移除顶部「📨 功能说明」banner 区域
 

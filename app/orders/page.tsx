@@ -152,10 +152,10 @@ export default function OrdersPage() {
             </FField>
           </div>
           <div className="mt-4 flex gap-2.5">
-            <Button onClick={applyFilter}>
+            <Button onClick={applyFilter} className="max-[460px]:flex-1">
               <Search size={16} /> 查询
             </Button>
-            <Button variant="outline" onClick={resetFilter}>
+            <Button variant="outline" onClick={resetFilter} className="max-[460px]:flex-1">
               <RotateCcw size={15} /> 重置
             </Button>
           </div>
