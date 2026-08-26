@@ -237,12 +237,12 @@ function DetailInner() {
           ))}
         </div>
 
-        {/* 明细工具栏 + ��格 */}
+        {/* 明细工具栏 + 表格 */}
         <div className="animate-fade-up d3 overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)]">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
-            <div className="flex min-w-0 flex-1 items-center gap-2.5">
+          <div className="flex flex-col gap-3 border-b border-border p-4 lg:flex-row lg:flex-wrap lg:items-center lg:justify-between">
+            <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center lg:min-w-0 lg:flex-1">
               <input
-                className="field-input min-w-0 max-w-[240px] flex-1 basis-0"
+                className="field-input w-full min-w-0 sm:w-auto sm:max-w-[240px] sm:flex-1 sm:basis-0"
                 placeholder="根据手机号筛选…"
                 value={phoneKw}
                 onChange={(e) => setPhoneKw(e.target.value)}
@@ -251,7 +251,7 @@ function DetailInner() {
                 }}
               />
               <select
-                className="field-input w-[150px]! shrink-0 grow-0 basis-[150px]!"
+                className="field-input w-full shrink-0 grow-0 sm:w-[150px]! sm:basis-[150px]!"
                 value={statusF}
                 onChange={(e) => setStatusF(e.target.value)}
               >
@@ -260,14 +260,16 @@ function DetailInner() {
                 <option value="fail">{isSms ? "发送失败" : "充值失败"}</option>
                 <option value="process">{isSms ? "发送中" : "充值中"}</option>
               </select>
-              <Button size="sm" onClick={runQuery} className="shrink-0">
-                <Search size={15} /> 查询
-              </Button>
-              <Button variant="outline" size="sm" onClick={resetQuery} className="shrink-0">
-                重置
-              </Button>
+              <div className="flex items-center gap-2.5">
+                <Button size="sm" onClick={runQuery} className="flex-1 shrink-0 sm:flex-none">
+                  <Search size={15} /> 查询
+                </Button>
+                <Button variant="outline" size="sm" onClick={resetQuery} className="flex-1 shrink-0 sm:flex-none">
+                  重置
+                </Button>
+              </div>
             </div>
-            <Button variant="outline" size="sm" onClick={exportCsv}>
+            <Button variant="outline" size="sm" onClick={exportCsv} className="w-full lg:w-auto">
               <Download size={15} /> 导出数据
             </Button>
           </div>
