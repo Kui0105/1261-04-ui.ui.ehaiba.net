@@ -230,7 +230,13 @@ function OrderRow({ o, onDetail }: { o: Order; onDetail: () => void }) {
   return (
     <tr>
       <td>
-        <span className="font-mono text-[13px] font-semibold">{o.id}</span>
+        <button
+          onClick={onDetail}
+          className="link-primary font-mono text-[13px] font-semibold transition-colors"
+          title="查看订单详情"
+        >
+          {o.id}
+        </button>
       </td>
       <td>
         <span className={`badge ${o.kind === "sms" ? "info" : "gray"}`}>
@@ -245,7 +251,7 @@ function OrderRow({ o, onDetail }: { o: Order; onDetail: () => void }) {
       </td>
       <td className="whitespace-nowrap text-[13px] text-muted">{o.createdAt}</td>
       <td className="text-center">
-        <button onClick={onDetail} className="link-primary text-[13px] font-semibold">
+        <button onClick={onDetail} className="link-primary whitespace-nowrap text-[13px] font-semibold">
           查看详情
         </button>
       </td>
