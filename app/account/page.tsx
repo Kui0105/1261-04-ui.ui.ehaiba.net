@@ -108,13 +108,13 @@ export default function AccountPage() {
   return (
     <AppShell active="account">
       <div className="container-app py-8">
-      <div className="page-head">
+      <div className="animate-fade-up page-head">
         <h1>账户中心</h1>
         <p>查看账户交易流水明细，掌握账户消费与充值情况。</p>
       </div>
 
       {isEnterprise && (
-        <div className="panel rech-entry">
+        <div className="animate-fade-up d1 panel rech-entry">
           <div className="rech-entry-info">
             <div className="rech-entry-icon" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -134,7 +134,7 @@ export default function AccountPage() {
       )}
 
       {isEnterprise && (
-        <div className="tiles" style={{ marginBottom: 18 }}>
+        <div className="animate-fade-up d2 tiles" style={{ marginBottom: 18 }}>
           {tiles.map((t, i) => (
             <div key={i} className={`tile ${t.c}`}>
               <div className="n">{t.n}</div>
@@ -144,7 +144,7 @@ export default function AccountPage() {
         </div>
       )}
 
-      <div className="panel acct-flow-panel">
+      <div className="animate-fade-up d3 panel acct-flow-panel">
         <div className="acct-flow-head">
           <h3 style={{ margin: 0 }}>交易明细</h3>
         </div>

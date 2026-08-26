@@ -144,7 +144,7 @@ export function AppShell({
                 const isActive = it.key === active;
                 const inner = (
                   <span
-                    className={`flex min-w-[68px] flex-col items-center gap-1 rounded-xl px-3 py-2 text-[12px] font-medium transition-all duration-200 ${
+                    className={`flex min-w-[76px] flex-col items-center gap-1 whitespace-nowrap rounded-xl px-3 py-2 text-[12px] font-medium transition-all duration-200 ${
                       isActive
                         ? "bg-[var(--color-primary-light)] text-primary"
                         : "text-muted hover:bg-black/[0.03] hover:text-foreground"
