@@ -196,7 +196,7 @@ export default function AccountPage() {
               <option value="微信支付">微信支付</option>
             </select>
           </div>
-          <div className="filter-field">
+          <div className="filter-field filter-field-date">
             <label>交易时间</label>
             <div className="date-range">
               <input

@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-08-26（v1.1.4 / 迭代 81）账户中心筛选项栅格化，修复长短不齐与溢出背景块
+
+- **筛选栏（app/globals.css `.flow-filter-bar`）**：由 `flex + flex-wrap` 改为 `grid`，`grid-template-columns: repeat(auto-fit, minmax(190px, 1fr))`，各筛选项等宽对齐，不再「长的长短的短」。
+- **输入控件（`.filter-field .field-input`）**：移除 `min-width:150px`，改为 `width:100%; min-width:0; max-width:100%`，并给 `.filter-field` 加 `min-width:0`，彻底消除超出面板背景色块的溢出。
+- **下拉框（`.filter-field select.field-input`）**：`appearance:none` 去掉浏览器原生箭头（各浏览器宽度不一，也是观感别扭来源），改用内联 SVG 箭头 + `padding-right:34px`，与输入框视觉统一。
+- **日期区间（`.filter-field-date` / `.date-range`）**：新增 `.filter-field-date` 类占两列；`.date-range` 改为 `grid-template-columns: minmax(0,1fr) auto minmax(0,1fr)`，两个日期框等宽且不溢出。
+- **响应式断点**：`≤760px` 两列（日期区间跨两列）、`≤460px` 单列（日期区间仍左右并排，字号与内边距收紧）。
+- **代理商中心（app/agent/page.tsx）**：佣金明细筛选栏移除内联 `flex:1 / minWidth` 覆盖，日期字段改用 `.filter-field-date`，与账户中心口径一致。
+- 版本号 `package.json` 由 `1.1.3` 升至 `1.1.4`。
+
+---
+
 ## 2026-08-17（迭代 80）顶栏语音回收文字颜色与其它导航一致
 
 - **顶部导航（assets/css/style.css `.nav-todo`）**：原 `.nav a.nav-todo` / `.icon-nav-item.nav-todo` 用 `opacity:.5/.45` 淡化，导致「语音回收」文字颜色比其它导航更浅。改为 `opacity:1` 且 `color:var(--text-2)`（与其它导航项一致），hover 仍高亮为 `var(--primary)`；点击提示「语音回收功能待开放」行为不变。
@@ -144,7 +156,7 @@
   - 新增**数据统计条**（`.team-stats`）：展示 `直推（7）` `间推（8）`，数据来自 `DB.AGENT_DIRECT / DB.AGENT_INDIRECT` 实时长度。
   - 列表**分页，每页 10 条**（`TEAM_PAGE_SIZE = 10`）；新增 `renderTeamPager()` 生成上一页/下一页 + 「第 X / Y 页（共 N 条）」，切换 TAB 自动回到第 1 页。
 - **3. 推广链接弹窗标题对齐**：移除 `promoModal` 标题 `h3` 上的 `justify-content:center` 内联样式，改由全局 `.modal > h3`（flex + space-between）统一管理，实现**标题左对齐、关闭 ICON 右对齐**。
-- **4. 佣金提现表单增加手机验证码**：新增「绑定手机号」输入框（打开弹窗时预填 `s.phone`）与「短信验证码」输入 + 「获取验证码」按钮（60s 倒计时，演示验证码通过 toast 展示）；`doWithdrawSubmit()` 提交前校验手机号格式、是否已获取验证码、验证码是否正确。
+- **4. 佣金提现表单增加手机验证码**：新增「绑定手机号」输入框（打开弹窗时预填 `s.phone`）与「短信验证码」输入 + 「获取验证码」按钮（60s 倒计时，演示验证码通过 toast 展示）；`doWithdrawSubmit()` 提交前校验手机号格式、是否已获取验���码、验证码是否正确。
 - **5. 提现记录增加状态与凭证**：
   - 状态扩展为 **打款成功（已到账）/ 待审核 / 待打款 / 审核驳回** 四种；驳回行显示**驳回原因**（`.wd-reason`）。
   - 打款成功行提供「**查看凭证**」按钮，弹窗以 SVG 绘制转账凭证图（金额 / 收款账户 / 单号 / 时间 / 已到账）。
@@ -288,7 +300,7 @@
 ## 2026-08-13（迭代 57）订单详情页样式优化（3 项）
 
 1. **基本信息改为多列网格（撑满横向）**：弃用原单列表格（右侧空白），新增 `.detail-info-grid`（`display:grid; grid-template-columns: repeat(3,1fr); gap:1px; background:#eef0f3` 的卡片化分格），每个字段为 `.info-item`（label + value 上下排布，白底、圆角 10px）；充值单 9 个字段、短信单 8 个字段（含「号码总数」）按 3 列铺满整行，消除空旷感；H5（≤520px）降为 `repeat(2,1fr)`。
-2. **卡片 PC 一行展示**：`#detailBody .tiles` 覆盖为 `grid-template-columns: repeat(5, 1fr)`，5 张统计卡片（号码总数/充值中/充值成功/充值失败/退款总额）在 PC 端单行排列；H5（≤520px）降为 `repeat(2, 1fr)` 自适应换行。
+2. **卡片 PC 一行展示**：`#detailBody .tiles` 覆盖为 `grid-template-columns: repeat(5, 1fr)`，5 张统计卡片（号码总数/充值中/充值成功/充值失败/退��总额）在 PC 端单行排列；H5（≤520px）降为 `repeat(2, 1fr)` 自适应换行。
 3. **明细列表加分页**：新增 `detailPageSize=20`、`applyDetailPagination()`、`goDetailPage(p)`；筛选后自动重置到第 1 页并重新分页；导出仍输出全量数据（不受分页影响）。
 
 ---
@@ -490,7 +502,7 @@
 
 ---
 
-## 2026-08-06（迭代 36）移除短信模板标题中（后台定价 · 只读）
+## 2026-08-06（迭代 36）移除短信模板标题中（后台定�� · 只读）
 - sms.html：标题「① 选择专属短信模板（后台定价 · 只读）」改为「① 选择专属短信模板」
 
 ---
@@ -716,7 +728,7 @@
 
 ## 2026-07-28（迭代 7）
 
-- **图标导航下移 + 移除底部 Tab 栏**：上一轮把图标放进顶栏内联，本轮按需求改到「顶栏正下方」单独一行子导航条（`.subnav`，移动端 `position:sticky;top:60px` 跟随吸顶）。
+- **图标导航下移 + 移除底部 Tab 栏**：上一轮把图标放���顶栏内联，本轮按需求改到「顶栏正下方」单独一行子导航条（`.subnav`，移动端 `position:sticky;top:60px` 跟随吸顶）。
   - `app.js`：`renderTopbar()` 将图标行从顶栏 `.inner` 内移到独立 `.subnav` 元素，插入到顶栏之后；移除底部 Tab 栏注入与 `has-tabbar`，删除未用的 `TAB_ICONS` 常量。
   - `style.css`：删除 `.hamburger` / `.mmenu-*` / `.tabbar` / `body.has-tabbar` 全部失效样式；新增 `.subnav` 容器样式。
   - `index.html`：首页静态顶栏同步改为顶栏下方独立 `.subnav` 图标条。
@@ -736,7 +748,7 @@
 ## 2026-07-28（迭代 5）
 
 - **充值确认弹窗溢出修复**：提交订单的二次确认弹窗在部分屏幕下内容（表格 + 余额三卡片）横向溢出模态框边界。
-  - `.modal` 全局样式：`overflow: auto` 拆分为 `overflow-y:auto; overflow-x:hidden`，增加 `box-sizing:border-box`，彻底阻止水平溢出。
+  - `.modal` 全局样式：`overflow: auto` 拆分为 `overflow-y:auto; overflow-x:hidden`，��加 `box-sizing:border-box`，彻底阻止水平溢出。
   - 确认弹窗内表格加 `table-layout:fixed;width:100%` 固定列宽不撑开。
   - 企业用户三张余额卡片缩小内边距（16→12px）、字号（24→20px）、间距（14→8px），确保在 480px 弹窗内不换行溢出。
 
@@ -752,7 +764,7 @@
 
 - **二次确认审计（全系统）**：排查所有破坏性 / 不可逆 / 涉及资金的敏感操作，统一补加二次确认。
   - `recharge.html`：`clearPhones()`（清空已导入号码，破坏性）→ 加 `confirm()`，提示将清空多少个号码且不可撤销。
-  - `agent.html`：`applyAgent()`（申请成为代理商，不可逆）→ 已加 `confirm()`；`applyWithdraw()`（提交提现申请，涉资金）→ 已加 `confirm()`，展示提现金额与收款信息。
+  - `agent.html`：`applyAgent()`（申请成为代理商，不可逆）→ 已加 `confirm()`；`applyWithdraw()`（提交提现申请，涉资���）→ 已加 `confirm()`，展示提现金额与收款信息。
   - `assets/js/app.js`：`logoutAndGo()`（退出登录，清空登录态）→ 加 `confirm()`；`logout()` 仅内部调用保持不变。
   - 已有：`recharge.html` 提交订单（`submitOrder()`）走确认弹窗展示明细/余额（上一轮已加）。
 

@@ -641,7 +641,7 @@ function AgentCenter({
           </div>
         </div>
         <div className="flow-filter-bar" style={{ padding: "14px 22px 12px" }}>
-          <div className="filter-field" style={{ flex: 1, minWidth: 140 }}>
+          <div className="filter-field">
             <label>单号</label>
             <input
               type="text"
@@ -654,7 +654,7 @@ function AgentCenter({
               }}
             />
           </div>
-          <div className="filter-field" style={{ flex: 1, minWidth: 140 }}>
+          <div className="filter-field">
             <label>来源用户</label>
             <input
               type="text"
@@ -667,7 +667,7 @@ function AgentCenter({
               }}
             />
           </div>
-          <div className="filter-field" style={{ minWidth: 150 }}>
+          <div className="filter-field filter-field-date">
             <label>产生时间</label>
             <div className="date-range">
               <input

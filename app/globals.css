@@ -639,18 +639,59 @@ textarea.field-input {
 .flow-sum-n { font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: var(--color-primary); }
 
 .flow-filter-bar {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px 16px;
   padding: 16px 22px;
-  align-items: flex-end;
+  align-items: end;
 }
-.filter-field { display: flex; flex-direction: column; gap: 6px; }
-.filter-field > label { font-size: 12.5px; color: var(--color-muted); font-weight: 600; }
-.filter-field .field-input { height: 40px; min-width: 150px; }
-.date-range { display: flex; align-items: center; gap: 8px; }
-.date-range .field-input { min-width: 140px; }
+.filter-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.filter-field > label {
+  font-size: 12.5px;
+  color: var(--color-muted);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.filter-field .field-input {
+  height: 40px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+.filter-field select.field-input {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238a7d6d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+}
+.filter-field-date { grid-column: span 2; }
+.date-range {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+.date-range .field-input { padding: 0 10px; }
 .date-sep { color: var(--color-muted-2); }
+
+@media (max-width: 760px) {
+  .flow-filter-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 14px 16px;
+  }
+  .filter-field-date { grid-column: span 2; }
+}
+@media (max-width: 460px) {
+  .flow-filter-bar { grid-template-columns: minmax(0, 1fr); }
+  .filter-field-date { grid-column: span 1; }
+  .date-range { gap: 6px; }
+  .date-range .field-input { font-size: 13px; padding: 0 8px; }
+}
 .flow-table-wrap { overflow-x: auto; }
 
 /* 对公账户 */
