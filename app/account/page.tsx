@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import { Search, RotateCcw } from "lucide-react"
 import { AppShell } from "@/components/layout/app-shell"
 import { Button } from "@/components/ui/button"
 import { Modal } from "@/components/ui/modal"
@@ -13,16 +14,23 @@ import Link from "next/link"
 const FLOW_PAGE_SIZE = 20
 const FLOW_DEDUCT_TYPES = ["话费充值", "短信群发", "平台扣减"]
 
+type FlowFilters = {
+  keyword: string
+  type: string
+  account: string
+  dateFrom: string
+  dateTo: string
+}
+
+const EMPTY_FILTERS: FlowFilters = { keyword: "", type: "", account: "", dateFrom: "", dateTo: "" }
+
 export default function AccountPage() {
   const { session } = useSession()
   const toast = useToast()
   const [corpOpen, setCorpOpen] = useState(false)
 
-  const [keyword, setKeyword] = useState("")
-  const [typeFilter, setTypeFilter] = useState("")
-  const [acctFilter, setAcctFilter] = useState("")
-  const [dateFrom, setDateFrom] = useState("")
-  const [dateTo, setDateTo] = useState("")
+  const [form, setForm] = useState<FlowFilters>(EMPTY_FILTERS)
+  const [applied, setApplied] = useState<FlowFilters>(EMPTY_FILTERS)
   const [page, setPage] = useState(1)
 
   const flows = DB.FLOWS || []
@@ -43,31 +51,35 @@ export default function AccountPage() {
   const isEnterprise = session?.type === "enterprise"
 
   const filtered = useMemo(() => {
-    const kw = keyword.trim().toLowerCase()
+    const kw = applied.keyword.trim().toLowerCase()
     return flows.filter((f) => {
       if (kw) {
         const id = f.id.toLowerCase()
         const oid = (f.orderId || "").toLowerCase()
         if (id.indexOf(kw) === -1 && oid.indexOf(kw) === -1) return false
       }
-      if (typeFilter && f.type !== typeFilter) return false
-      if (acctFilter && f.account !== acctFilter) return false
-      if (dateFrom && f.time < dateFrom) return false
-      if (dateTo && f.time > dateTo) return false
+      if (applied.type && f.type !== applied.type) return false
+      if (applied.account && f.account !== applied.account) return false
+      if (applied.dateFrom && f.time < applied.dateFrom) return false
+      if (applied.dateTo && f.time > applied.dateTo) return false
       return true
     })
-  }, [flows, keyword, typeFilter, acctFilter, dateFrom, dateTo])
+  }, [flows, applied])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / FLOW_PAGE_SIZE))
   const currentPage = Math.min(page, totalPages)
   const start = (currentPage - 1) * FLOW_PAGE_SIZE
   const pageRows = filtered.slice(start, start + FLOW_PAGE_SIZE)
 
-  function resetPage<T>(setter: (v: T) => void) {
-    return (v: T) => {
-      setter(v)
-      setPage(1)
-    }
+  function applyFilter() {
+    setApplied(form)
+    setPage(1)
+  }
+
+  function resetFilter() {
+    setForm(EMPTY_FILTERS)
+    setApplied(EMPTY_FILTERS)
+    setPage(1)
   }
 
   function isMobile() {
@@ -165,16 +177,19 @@ export default function AccountPage() {
               type="text"
               className="field-input"
               placeholder="输入关键词搜索…"
-              value={keyword}
-              onChange={(e) => resetPage(setKeyword)(e.target.value)}
+              value={form.keyword}
+              onChange={(e) => setForm({ ...form, keyword: e.target.value })}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.nativeEvent.isComposing && e.keyCode !== 229) applyFilter()
+              }}
             />
           </div>
           <div className="filter-field">
             <label>交易类型</label>
             <select
               className="field-input"
-              value={typeFilter}
-              onChange={(e) => resetPage(setTypeFilter)(e.target.value)}
+              value={form.type}
+              onChange={(e) => setForm({ ...form, type: e.target.value })}
             >
               <option value="">全部类型</option>
               <option value="话费充值">话费充值</option>
@@ -188,8 +203,8 @@ export default function AccountPage() {
             <label>交易账户</label>
             <select
               className="field-input"
-              value={acctFilter}
-              onChange={(e) => resetPage(setAcctFilter)(e.target.value)}
+              value={form.account}
+              onChange={(e) => setForm({ ...form, account: e.target.value })}
             >
               <option value="">全部账户</option>
               <option value="系统余额">系统余额</option>
@@ -202,17 +217,25 @@ export default function AccountPage() {
               <input
                 type="date"
                 className="field-input"
-                value={dateFrom}
-                onChange={(e) => resetPage(setDateFrom)(e.target.value)}
+                value={form.dateFrom}
+                onChange={(e) => setForm({ ...form, dateFrom: e.target.value })}
               />
               <span className="date-sep">~</span>
               <input
                 type="date"
                 className="field-input"
-                value={dateTo}
-                onChange={(e) => resetPage(setDateTo)(e.target.value)}
+                value={form.dateTo}
+                onChange={(e) => setForm({ ...form, dateTo: e.target.value })}
               />
             </div>
+          </div>
+          <div className="filter-actions">
+            <Button onClick={applyFilter}>
+              <Search size={16} /> 查询
+            </Button>
+            <Button variant="outline" onClick={resetFilter}>
+              <RotateCcw size={15} /> 重置
+            </Button>
           </div>
         </div>
 
