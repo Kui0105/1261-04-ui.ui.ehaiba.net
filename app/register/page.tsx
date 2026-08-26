@@ -9,7 +9,7 @@ import { useToast } from "@/components/ui/toast";
 import { useSession } from "@/lib/session";
 import { DB, type SessionUser } from "@/lib/data";
 import { isValidPhone } from "@/lib/format";
-import { AgreementModal } from "@/app/login/page";
+import { AgreementModal } from "@/components/ui/agreement-modal";
 
 type RegType = "personal" | "enterprise";
 
