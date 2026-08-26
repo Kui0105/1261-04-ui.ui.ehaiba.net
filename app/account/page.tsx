@@ -107,6 +107,7 @@ export default function AccountPage() {
 
   return (
     <AppShell active="account">
+      <div className="container-app py-8">
       <div className="page-head">
         <h1>账户中心</h1>
         <p>查看账户交易流水明细，掌握账户消费与充值情况。</p>
@@ -296,6 +297,7 @@ export default function AccountPage() {
             </Button>
           </div>
         )}
+      </div>
       </div>
 
       <Modal open={corpOpen} onClose={() => setCorpOpen(false)} title="对公账户充值" maxWidth={460}>
