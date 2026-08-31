@@ -5,6 +5,16 @@
 
 ---
 
+## 2026-08-31（v1.2.0 / 迭代 87）首页增加企业微信客服悬浮二维码
+
+- **新增组件（components/ui/service-qr-float.tsx）**：右下角 `fixed bottom-6 right-6 z-40` 常驻悬浮客服入口。折叠态为橙色渐变圆形按钮（`Headphones` 图标，悬停展开「在线客服」文字）；展开态在按钮上方弹出扫码面板——橙色渐变标题栏「企业微信客服」+ 关闭按钮，内嵌 `FakeQr`（复用现有仿真二维码组件，seed=`fansheng-wecom-service`）与「微信扫码，添加专属客服 / 7×24 小时在线 · 充值 / 开票 / 售后」文案。
+- **交互**：点击按钮 toggle 展开/收起，点击面板右上角 `X` 或鼠标移出容器（`onMouseLeave`）收起；面板用 `opacity/scale/translate` 过渡淡入，`origin-bottom-right` 从按钮处展开。
+- **挂载（app/page.tsx）**：在 `AppShell` 内页脚之后引入 `<ServiceQrFloat />`，仅首页展示。
+- **验证**：桌面 1153px 与移动 390px 下按钮与展开面板均正常，二维码清晰、面板不溢出视口；`tsc --noEmit` 通过。
+- 版本号 `package.json` 由 `1.1.9` 升至 `1.2.0`。
+
+---
+
 ## 2026-08-31（v1.1.9 / 迭代 86）登录/注册页左上角 LOGO 底色改为纯白 #ffffff
 
 - **登录页（app/login/page.tsx）与注册页（app/register/page.tsx）**：左上角 LOGO 外层链接的胶囊底色由 `bg-white/90 backdrop-blur`（90% 半透明白 + 背景模糊，橙色底会透出）改为纯白 `bg-white`（#ffffff），并移除 `backdrop-blur`。
@@ -73,7 +83,7 @@
 
 ## 2026-08-14（迭代 79）订单详情基本信息增加优惠折扣显示
 
-- **订单详情页（assets/js/order-detail.js）**：话费充值与短信群发两类订单的「基本信息」网格新增三条折扣字段，与确认订单弹窗口径一致：
+- **订单详情页（assets/js/order-detail.js）**：话费充值与��信群发两类订单的「基本信息」网格新增三条折扣字段，与确认订单弹窗口径一致：
   - 优惠折扣：`DB.DISCOUNT.label`（9.9折）
   - 优惠金额：原价 ×（1 - 0.99），红色负值
   - 实付总额：原价 × 0.99
@@ -154,9 +164,9 @@
 
 ## 2026-08-13（迭代 72）去掉佣金金额筛选 + 顶栏编辑按钮+修改密码弹窗 + 提现记录样式修复
 
-- **1. 佣金明细筛选项去掉「佣金金额」**：删除筛选栏中的 `consAmt` 输入框（`filter-field` 容器 + label + input）；同步清理 `getFilteredCommissions()` 中 `amt`/`amtStr`/`isNaN(amt)` 相关过滤逻辑；保留 单号/来源用户关键词 + 产生时间范围 两项筛选。
+- **1. 佣金明细筛选项去掉「佣金金额」**：删除筛选栏中的 `consAmt` ��入框（`filter-field` 容器 + label + input）；同步清理 `getFilteredCommissions()` 中 `amt`/`amtStr`/`isNaN(amt)` 相关过滤逻辑；保留 单号/来源用户关键词 + 产生时间范围 两项筛选。
 - **2. 顶栏增加「编辑」按钮 + 修改密码弹窗**：
-  - `app.js` 的 `renderTopbar()` 在账号信息（`s.name/s.account`）与「退出」按钮之间插入 `<button id="btnEditPwd">编辑</button>`（`btn-ghost btn-sm mobile-hide`），并绑定 click 事件调用全局 `openEditPwdModal()`。
+  - `app.js` 的 `renderTopbar()` 在账号��息（`s.name/s.account`）与「退出」按钮之间插入 `<button id="btnEditPwd">编辑</button>`（`btn-ghost btn-sm mobile-hide`），并绑定 click 事件调用全局 `openEditPwdModal()`。
   - `agent.html` 新增修改密码弹���（`#editPwdMask`）：表单含 绑定手机号（预填 `s.phone`）/ 短信验证码（获取验证码 60s 倒计时，演示码 111111）/ 新密码（6-20 位）/ 确认新密码 / 取消 + 确认修改 双按钮。
   - JS 函数：`openEditPwdModal()`（预填手机号、重置表单和验证码 UI）、`closeEditPwdModal()`、`sendEditPwdCode()`、`resetEditPwdCodeBtn()`、`doEditPwdSubmit()`（校验手机号格式 → 是否已发码 → 验证码匹配 → 密码长度 6-20 → 两次一致 → toast 成功并关闭弹窗）。
 - **3. 提现记录弹窗样式修复**：
@@ -216,7 +226,7 @@
 
 ## 2026-08-13（迭代 68）代理中心：卡片一行显示、功能入口下移、合并双列表
 
-- **卡片数据改为一行显示不换行**：`agent.css` 为 `#agentTiles` 增加专属规则 `grid-template-columns: repeat(5, minmax(0,1fr))`，覆盖全局 `.tiles` 的 4 列布局，使 5 张卡片（我的团队 / 累计消费金额 / 累计获得佣金 / 可提现佣金 / 已提现佣金）始终排成一行；卡片内数字与标签加 `white-space:nowrap` 防挤压换行；窄屏（≤635px）改为 `minmax(96px,1fr)` 横向滚动而非折行。
+- **卡片数据改为一行显示不换行**：`agent.css` 为 `#agentTiles` 增加专属规则 `grid-template-columns: repeat(5, minmax(0,1fr))`，覆盖全局 `.tiles` 的 4 列布局，使 5 张卡片（我的团队 / 累计消费金额 / 累计获得佣金 / 可提现佣金 / 已提现���金）始终排成一行；卡片内数字与标签加 `white-space:nowrap` 防挤压换行；窄屏（≤635px）改为 `minmax(96px,1fr)` 横向滚动而非折行。
 - **功能入口下移**：「我的团队 / 推广链接 / 佣金提现 / 提现记录」四个操作按钮行（`.op-btn-row`）调整至卡片数据 `#agentTiles` 正下方，与卡片区视觉分离、符合「先数据后操作」的阅读顺序。
 - **合并两个相似列表（解决用户困惑）**：原「可通明细」与「佣金明细」两个表格结构相似、易混淆，本次删除「可通明细」面板，仅保留「佣金明细」单一列表，其筛选栏整合原两套筛选条件（单号/来源用户关键词 + 佣金金额 + 产生时间范围）。
   - 同步修复 JS 不一致：`renderAgentCenter()` 移除了对已删除 `consBody` 的 `renderConsDetails()` 调用；`applyConsFilter()` 改为筛选 `#commBody tr`，并为 `commBody` 行补充 `data-id`/`data-member`/`data-amt`/`data-time` 属性，使合并后的单一列表筛选仍可正常工作；删除已无用的 `renderConsDetails()` 函数。
@@ -286,7 +296,7 @@
 ## 2026-08-13（迭代 62）短信群发支付按用户类型分流 + 账户中心按钮垂直居中修复
 
 - **短信群发页（sms.html）支付流程改为按用户类型分流（与税费类型无关）**：与 迭代 61 话费充值逻辑对齐。新增判定 `var isBalancePay = s.type === "enterprise"`。
-  - 个人用户：无论选「含税」还是「未税」，一律走**微信扫码支付**（`openWechatPay`，二维码 3s 自动成功，不扣余额）。
+  - 个��用户：无论选「含税」还是「未税」，一律走**微信扫码支付**（`openWechatPay`，二维码 3s 自动成功，不扣余额）。
   - 企业用户：无论选「含税」还是「未税」，一律走**余额支付**（`openVerify` → `doVerifyPay` → `createOrder` + 扣减余额）。
   - `submitSend()`：确认弹窗「支付方式」标签与余额四卡片可见性改由 `isBalancePay` 控制；顺手修正「消费后余额」卡片（原误显 `-total`，改为真实剩余 `afterBalance = sess.balance - total`）。
   - `doConfirmPay()`：路由判断由 `state.tax === "taxed"` 改为 `s.type === "enterprise"`。
@@ -452,7 +462,7 @@
 
 ## 2026-08-13（迭代 47）充值/短信页去掉余额与预授信额度拦截
 
-- 移除 recharge.html 与 sms.html 提交单据前的 `if (total > avail) { toast("余额/预授信额度不足"); return; }` 拦截，原型直接进入支付流程（演示账户余额充足即可）。
+- 移除 recharge.html 与 sms.html 提交单据前的 `if (total > avail) { toast("余额/预授信额度不足"); return; }` 拦截，原型直接进入支付流程（演示账户余额充足即���）。
 - 余额卡片（当前/本次消费/消费后）仍展示，afterBalance 保留 Math.max(0, ...) 防负值显示。
 
 ## 2026-08-13（迭代 46）修复登录/注册协议勾选后按钮未启用 bug
@@ -577,7 +587,7 @@
   2. 专属模板列表（后台定价，前端只读，带 🔒 不可修改标识）
   3. 前端查看后台预创建+定价的模板，确认文案与单价
   4. 批量粘贴 / Excel 导入号码
-  5. 选定模板 + 号码后提交发送
+  5. 选定模板 + 号码��提交发送
   6. 提交前短信验证码校验（确认本人操作，原型展示演示验证码）
   7. 预扣费用 + 按第三方回执成功条数结算 + 失败条数自动退费（页面与确认弹窗均有说明）
   8. （见 orders.html）提交后任务进入「订单管理」可查进度

@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/layout/app-shell";
 import { Button } from "@/components/ui/button";
+import { ServiceQrFloat } from "@/components/ui/service-qr-float";
 import { useSession } from "@/lib/session";
 import { CARRIERS } from "@/lib/data";
 
@@ -277,6 +278,8 @@ export default function HomePage() {
           <p className="text-[13px] text-muted-2">梵胜通信 Fansheng Communication</p>
         </div>
       </footer>
+
+      <ServiceQrFloat />
     </AppShell>
   );
 }
