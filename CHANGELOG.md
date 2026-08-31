@@ -5,6 +5,12 @@
 
 ---
 
+## 2026-08-31（v1.2.1 / 迭代 88）修复客服悬浮按钮折叠态图标未居中
+
+- **问题（components/ui/service-qr-float.tsx）**：折叠态按钮用 `gap-2` + `px-4`，即使「在线客服」文字收起为 `max-w-0`，flex 仍在图标右侧保留 8px 间隙，把图标挤到圆形按钮中心的左侧，静止/未悬停时看起来不对齐。
+- **修复**：间隙改为默认 `gap-0`、仅悬停时 `group-hover:gap-2`；左右内边距由 `px-4` 收为 `px-3.5`，使折叠态成为规整的 50×50 圆形按钮。实测图标中心距左右边缘均为 25.0px，完全居中；悬停展开「在线客服」的交互不变。
+- 版本号 `package.json` 由 `1.2.0` 升至 `1.2.1`。
+
 ## 2026-08-31（v1.2.0 / 迭代 87）首页增加企业微信客服悬浮二维码
 
 - **新增组件（components/ui/service-qr-float.tsx）**：右下角 `fixed bottom-6 right-6 z-40` 常驻悬浮客服入口。折叠态为橙色渐变圆形按钮（`Headphones` 图标，悬停展开「在线客服」文字）；展开态在按钮上方弹出扫码面板——橙色渐变标题栏「企业微信客服」+ 关闭按钮，内嵌 `FakeQr`（复用现有仿真二维码组件，seed=`fansheng-wecom-service`）与「微信扫码，添加专属客服 / 7×24 小时在线 · 充值 / 开票 / 售后」文案。
@@ -67,7 +73,7 @@
 
 - **筛选栏（app/globals.css `.flow-filter-bar`）**：由 `flex + flex-wrap` 改为 `grid`，`grid-template-columns: repeat(auto-fit, minmax(190px, 1fr))`，各筛选项等宽对齐，不再「长的长短的短」。
 - **输入控件（`.filter-field .field-input`）**：移除 `min-width:150px`，改为 `width:100%; min-width:0; max-width:100%`，并给 `.filter-field` 加 `min-width:0`，彻底消除超出面板背景色块的溢出。
-- **下拉框（`.filter-field select.field-input`）**：`appearance:none` 去掉浏览器原生箭头（各浏览器宽度不一，也是观感别扭来源），改用内联 SVG 箭头 + `padding-right:34px`，与输入框视觉统一。
+- **下拉框（`.filter-field select.field-input`）**：`appearance:none` 去掉浏览��原生箭头（各浏览器宽度不一，也是观感别扭来源），改用内联 SVG 箭头 + `padding-right:34px`，与输入框视觉统一。
 - **日期区间（`.filter-field-date` / `.date-range`）**：新增 `.filter-field-date` 类占两列；`.date-range` 改为 `grid-template-columns: minmax(0,1fr) auto minmax(0,1fr)`，两个日期框等宽且不溢出。
 - **响应式断点**：`≤760px` 两列（日期区间跨两列）、`≤460px` 单列（日期区间仍左右并排，字号与内边距收紧）。
 - **代理商中心（app/agent/page.tsx）**：佣金明细筛选栏移除内联 `flex:1 / minWidth` 覆盖，日期字段改用 `.filter-field-date`，与账户中心口径一致。
@@ -359,7 +365,7 @@
 
 1. **基本信息改为多列网格（撑满横向）**：弃用原单列表格（右侧空白），新增 `.detail-info-grid`（`display:grid; grid-template-columns: repeat(3,1fr); gap:1px; background:#eef0f3` 的卡片化分格），每个字段为 `.info-item`（label + value 上下排布，白底、圆角 10px）；充值单 9 个字段、短信单 8 个字段（含「号码总数」）按 3 列铺满整行，消除空旷感；H5（≤520px）降为 `repeat(2,1fr)`。
 2. **卡片 PC 一行展示**：`#detailBody .tiles` 覆盖为 `grid-template-columns: repeat(5, 1fr)`，5 张统计卡片（号码总数/充值中/充值成功/充值失败/退��总额）在 PC 端单行排列；H5（≤520px）降为 `repeat(2, 1fr)` 自适应换行。
-3. **明细列表加分页**：新增 `detailPageSize=20`、`applyDetailPagination()`、`goDetailPage(p)`；筛选后自动重置到第 1 页并重新分页；导出仍输出全量数据（不受分页影响）。
+3. **明细列表加分页**：新增 `detailPageSize=20`、`applyDetailPagination()`、`goDetailPage(p)`；��选后自动重置到第 1 页并重新分页；导出仍输出全量数据（不受分页影响）。
 
 ---
 
@@ -447,7 +453,7 @@
 
 ---
 
-## 2026-08-13（迭代 49）支付流程拆分：含税余额支付/未税微信扫码
+## 2026-08-13（迭代 49）支付流程拆分：含税余额��付/未税微信扫码
 
 1. 含税=余额支付：确认弹窗余额卡片显示 预授信额度=¥2000、消费后余额=-消费金额（负数）；金额>2000 提示「余额/预授信额度不足无法支付」拦截；≤2000 确认支付后提示「支付成功」自动跳转订单管理页。
 2. 未税=微信支付：修复支付方式乱码（微信用正确字符）；确认弹窗不显示四张余额卡片；点击确认支付弹出仿真二维码，3s 后提示「支付成功」自动跳转订单管理页。
@@ -678,7 +684,7 @@
 
 - **账户中心新增「账户充值」入口**：位于标题下方、余额卡片上方。
   - 个人用户：仅手机端（UA 或 ≤640px）时弹「微信支付充值」弹窗（金额 chips + 自定义输入 + 调起微信支付，原型模拟加款）；非手机端提示「请在手机端使用微信支付」。
-  - 企业用户：弹「对公账户充值」弹窗，展示收款户名/开户银行/收款账号（含备注与客服提示）。
+  - 企业用户：弹「对公账户充值」弹窗，展示收款���名/开户银行/收款账号（含备注与客服提示）。
   - `data.js` 新增 `CORP_ACCOUNT`（对公账户）、`RECHARGE_AMOUNTS`（个人可选金额）。
   - 新增样式：`.rech-entry`、`.amount-chips`/`.amount-chip`、`.corp-account`/`.ca-row` 等。
 
@@ -695,7 +701,7 @@
 
 ## 2026-07-29（迭代 18）
 
-- **修复订单管理页移动端「查看明细」按钮被遮挡**：
+- **修复订单管理页移动端「查看明细」��钮被遮挡**：
   - ≤640px 已隐藏「税费」「提交时间」2 列，但剩余 6 列在手机宽度下按钮仍被截断。
   - **新增 ≤480px 断点**：再隐藏「面值」列（可由总额÷数量推算），保留 5 列（订单号/号码数/总额/状态/操作）；单元格 padding 缩至 8×6px，字号 12px；`.btn-detail` 按钮缩小为 `padding:6px 10px`。
   - 表格容器加 `-webkit-overflow-scrolling:touch`（iOS 平滑滚动）；表格设 `min-width:560px` 确保内容不被压缩。
@@ -806,7 +812,7 @@
 ## 2026-07-28（迭代 5）
 
 - **充值确认弹窗溢出修复**：提交订单的二次确认弹窗在部分屏幕下内容（表格 + 余额三卡片）横向溢出模态框边界。
-  - `.modal` 全局样式：`overflow: auto` 拆分为 `overflow-y:auto; overflow-x:hidden`，��加 `box-sizing:border-box`，彻底阻止水平溢出。
+  - `.modal` 全局样式：`overflow: auto` 拆分为 `overflow-y:auto; overflow-x:hidden`，��加 `box-sizing:border-box`，彻底阻��水平溢出。
   - 确认弹窗内表格加 `table-layout:fixed;width:100%` 固定列宽不撑开。
   - 企业用户三张余额卡片缩小内边距（16→12px）、字号（24→20px）、间距（14→8px），确保在 480px 弹窗内不换行溢出。
 

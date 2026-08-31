@@ -48,7 +48,7 @@ export function ServiceQrFloat() {
         aria-label="联系企业微信客服"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="group flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,#f7842e,#d2560e)] px-4 py-3.5 text-white shadow-[var(--shadow-glow)] transition-transform duration-200 hover:-translate-y-0.5"
+        className="group flex items-center gap-0 rounded-full bg-[linear-gradient(135deg,#f7842e,#d2560e)] px-3.5 py-3.5 text-white shadow-[var(--shadow-glow)] transition-transform duration-200 hover:-translate-y-0.5 group-hover:gap-2"
       >
         <Headphones size={22} />
         <span className="max-w-0 overflow-hidden whitespace-nowrap text-[14px] font-bold opacity-0 transition-all duration-300 group-hover:max-w-[96px] group-hover:opacity-100">
