@@ -155,7 +155,7 @@ function LoginInner() {
 
       <header className="relative z-40">
         <div className="container-app flex h-16 items-center justify-between">
-          <Link href="/" className="group flex items-center rounded-xl bg-white/90 px-3 py-1.5 backdrop-blur">
+          <Link href="/" className="group flex items-center rounded-xl bg-white px-3 py-1.5">
             <BrandLogo className="transition-transform group-hover:scale-[1.03]" />
           </Link>
           <Link

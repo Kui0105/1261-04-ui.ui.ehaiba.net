@@ -5,6 +5,14 @@
 
 ---
 
+## 2026-08-31（v1.1.9 / 迭代 86）登录/注册页左上角 LOGO 底色改为纯白 #ffffff
+
+- **登录页（app/login/page.tsx）与注册页（app/register/page.tsx）**：左上角 LOGO 外层链接的胶囊底色由 `bg-white/90 backdrop-blur`（90% 半透明白 + 背景模糊，橙色底会透出）改为纯白 `bg-white`（#ffffff），并移除 `backdrop-blur`。
+- **验证**：登录页胶囊实测 `background-color: rgb(255, 255, 255)`，LOGO 落在纯白底上、无橙色透色。
+- 版本号 `package.json` 由 `1.1.8` 升至 `1.1.9`。
+
+---
+
 ## 2026-08-31（v1.1.8 / 迭代 85）更换品牌 LOGO 为新版横向锁定形
 
 - **替换素材（public/images/logo-fansheng.png）**：由旧的 600×600 方形图换为新版 1998×730 横向锁定形（低多边形地球图标 + 梵胜通信 + Fansheng Communication）。
@@ -73,7 +81,7 @@
 
 ---
 
-## 2026-08-14（迭代 78）代理申请区分企业/个人 + 提现结算说明 + 语音回收入口 + 折扣字段
+## 2026-08-14（迭代 78）代理申请区分企业/个人 + 提现结算说明 + 语音回收入�� + 折扣字段
 
 - **代理申请表单（agent.html）**：新增「用户类型」分段切换（企业用户 / 个人用户）。
   - 企业用户：表单不变，保留营业执照上传。
@@ -149,7 +157,7 @@
 - **1. 佣金明细筛选项去掉「佣金金额」**：删除筛选栏中的 `consAmt` 输入框（`filter-field` 容器 + label + input）；同步清理 `getFilteredCommissions()` 中 `amt`/`amtStr`/`isNaN(amt)` 相关过滤逻辑；保留 单号/来源用户关键词 + 产生时间范围 两项筛选。
 - **2. 顶栏增加「编辑」按钮 + 修改密码弹窗**：
   - `app.js` 的 `renderTopbar()` 在账号信息（`s.name/s.account`）与「退出」按钮之间插入 `<button id="btnEditPwd">编辑</button>`（`btn-ghost btn-sm mobile-hide`），并绑定 click 事件调用全局 `openEditPwdModal()`。
-  - `agent.html` 新增修改密码弹窗（`#editPwdMask`）：表单含 绑定手机号（预填 `s.phone`）/ 短信验证码（获取验证码 60s 倒计时，演示码 111111）/ 新密码（6-20 位）/ 确认新密码 / 取消 + 确认修改 双按钮。
+  - `agent.html` 新增修改密码弹���（`#editPwdMask`）：表单含 绑定手机号（预填 `s.phone`）/ 短信验证码（获取验证码 60s 倒计时，演示码 111111）/ 新密码（6-20 位）/ 确认新密码 / 取消 + 确认修改 双按钮。
   - JS 函数：`openEditPwdModal()`（预填手机号、重置表单和验证码 UI）、`closeEditPwdModal()`、`sendEditPwdCode()`、`resetEditPwdCodeBtn()`、`doEditPwdSubmit()`（校验手机号格式 → 是否已发码 → 验证码匹配 → 密码长度 6-20 → 两次一致 → toast 成功并关闭弹窗）。
 - **3. 提现记录弹窗样式修复**：
   - 「查看凭证」按钮改为 `display:inline-flex; white-space:nowrap`，确保文字**横向排列**不竖排；打款凭证列（第 5 列）设 `min-width:80px; text-align:center` 给足宽度。
@@ -449,7 +457,7 @@
 
 ## 2026-08-13（迭代 46）修复登录/注册协议勾选后按钮未启用 bug
 
-- 根因：直接点击复选框小方框时，监听对 `input` 标签提前 return，未同步按钮 `disabled` 状态，导致勾选后按钮仍置灰不可点。
+- 根因：直接点击复选框��方框时，监听对 `input` 标签提前 return，未同步按钮 `disabled` 状态，导致勾选后按钮仍置灰不可点。
 - 修复：为复选框自身加 `change` 事件监听器来同步按钮启用状态；点文字区仍手动切换。登录（密码/验证码两模式）与注册（个人/企业共用同一按钮）均修复。
 
 ## 2026-08-13（迭代 45）登录与注册表单加《用户协议》《隐私政策》勾选
@@ -686,7 +694,7 @@
 
 ## 2026-07-29（迭代 19）
 
-- **修复弹窗移动端两侧无安全距离**：`.modal-mask` 的 `padding` 从固定 `16px` 提升为 `max(20px, env(safe-area-inset-*))`，四边统一加大安全间距，兼容刘海/圆角屏。
+- **修复弹窗移动端两侧无安全距离**：`.modal-mask` 的 `padding` 从固定 `16px` 提��为 `max(20px, env(safe-area-inset-*))`，四边统一加大安全间距，兼容刘海/圆角屏。
 
 ---
 
@@ -704,7 +712,7 @@
 
 - **弹窗滚动后关闭按钮不可点击修复**：订单明细等长内容弹窗，向下滚动后顶部 × 按钮滚出视口无法关闭。
   - `.modal h3` 改�� `position: sticky; top: 0` 吸顶固定，白色背景 + 底部阴影分隔线，负 margin 抵消弹窗 padding 使标题栏贴顶。
-  - 所有 `.modal` 弹窗（确认提交、成功提示、订单明细）统一生效。
+  - 所有 `.modal` ��窗（确认提交、成功提示、订单明细）统一生效。
 
 ---
 
